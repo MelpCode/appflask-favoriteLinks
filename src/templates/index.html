@@ -1,0 +1,51 @@
+{% extends "layout.html"%}
+
+{% block main %}
+    <br>
+    <div class="row">
+        <div class="col-md-5 offset-md-4">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <div class="card card-body">
+                <form action="/linkspages" method="POST">
+                    <div class="form-group">
+                        <input type="text" name="link" placeholder="Enter link: eg.https://gmail.com" class="form-control" required>
+                    </div>
+                    <button class="btn btn-dark btn-block">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br><br><br>
+    <div class="row">
+        {% for url in urls %}
+            <div class="col-md-4 p-2">
+                <div class="card card-body border-dark">
+                    <p><strong>Link:</strong></p>
+                    <p>{{ url['link'] }}</p>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-6 md-2">
+                            <a href="{{ url['link'] }}" target="_blank" class="btn btn-dark btn-block">Visit</a>
+                        </div>
+                        <div class="col-md-6 md-2">
+                            <a href="/delete/{{ url['_id']['$oid'] }}" class="btn btn-danger btn-delete btn-block">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {%endfor%}
+    </div>
+{% endblock %}
+
